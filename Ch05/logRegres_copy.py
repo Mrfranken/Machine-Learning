@@ -1,7 +1,6 @@
 from numpy import *
 
 
-
 def loadDataSet():
     data_mat = []
     data_label = []
@@ -12,19 +11,21 @@ def loadDataSet():
         data_label.append(int(line[2]))
     return data_mat, data_label
 
+
 def sigmod(inx):
     return 1 / (1 + exp(-inx))
+
 
 def gradAscent(data_mat, data_labels):
     data_matrix = mat(data_mat)
     label_matrix = mat(data_labels)
-    m,n = data_matrix.shape
+    m, n = data_matrix.shape
     alpha = 0.001
     weights = ones((n, 1))
     max_cycles = 500
     for i in range(max_cycles):
-        h = sigmod(data_matrix*weights) # 1000*3 3*1
-        error = label_matrix.T - h # 1000*1
+        h = sigmod(data_matrix * weights)  # 1000*3 3*1
+        error = label_matrix.T - h  # 1000*1
         weights = weights + alpha * data_matrix.T * error
     return weights
 
@@ -38,11 +39,12 @@ def stochastic_gradient_descent(data_mat, data_labels):
     weights = ones(n)
     for i in range(m):
         # h = sigmod(sum(data_matrix[i]*weights)) #
-        h = sigmod(weights*data_matrix[i].reshape(3, -1))[0, 0]
+        h = sigmod(weights * data_matrix[i].reshape(3, -1))[0, 0]
         error = label_matrix[i] - h
         weights = weights + alpha * error * data_matrix[i]
     # return array(weights)
     return array(weights)[0]
+
 
 def plotBestFit():
     data_mat, data_label = loadDataSet()
